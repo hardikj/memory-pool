@@ -1,9 +1,13 @@
-<html>
-<body>
-	<h2> Create A Memory Pool<h3>
-	<form action="create" method="POST">
-		Go to /memorypool/<input type="text" name="text">
-		<input type="submit" value="Go">
-	</form>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %}Index {% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="jheading">Create a Pool now</h1>
+        <p class="lead"> To get started enter the name of the pool you in the box below</p>
+        <p class="lead">
+          <form action="create" method="POST">
+          <input type="text" name="text">
+          <input type="submit" value="Create" class="btn btn-lg btn-success">
+        </form></p>
+     </div>
+{% endblock %}

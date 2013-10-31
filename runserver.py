@@ -18,8 +18,13 @@ def index():
 
 @app.route('/create', methods=["POST"])
 def create():
-	text = request.form['text']
-	return redirect('/%s/setup'%text)
+    text = request.form['text']
+    fb = firebase.FirebaseApplication('https://memory-pool.firebaseio.com', None)
+    result = fb.get('/', None)
+    if text in result:
+        return redirect("%s"%text)
+    else:
+        return redirect('/%s/setup'%text)
 
 
 @app.route('/<name>/setup')

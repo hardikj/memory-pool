@@ -1,5 +1,7 @@
-<html>
-<body>
+{% extends "layout.html" %}
+{% block title %} Upload {% endblock %}
+{% block head %}{{super()}}{% endblock %}
+{% block content %}
 	<h1> Welcome </h1>
 	<p> You can now upload memories about {{name}} </p>
 	<p> You can now upload some memories or share this URL to other people to upload memories</p>
@@ -7,5 +9,4 @@
 		<input type="file" name="file" multiple>
 		<input type="submit"/>
 	</form>
-</body>
-</html>
+{% endblock %}
