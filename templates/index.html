@@ -3,11 +3,31 @@
 {% block content %}
     <div class="jumbotron">
         <h1 class="jheading">Create a Pool now</h1>
-        <p class="lead"> To get started enter the name of the pool you in the box below</p>
+        <p class="lead"> To get started enter the name of the pool in the box below</p>
         <p class="lead">
-          <form action="create" method="POST">
-          <input type="text" name="text">
-          <input type="submit" value="Create" class="btn btn-lg btn-success">
+        <form action="create" method="POST" id="index-form">
+          <input type="text" name="text" id="index-input">
+          <input type="submit" value="Create" class="btn btn-lg btn-success" id="index-btn">
+          <div class="alert alert alert-warning fade in" id="login-error" style="display:none;">
+          <button type="button" class="close">×</button>
+           <strong>Warning!</strong> Pool Already Exist</div>
         </form></p>
      </div>
+      <script type="text/javascript">
+      $('#index-input').on('input', function() {
+        var val = $('#index-input').val();
+        var fb = new Firebase('https://memory-pool.firebaseio.com/'+val);
+        fb.on('value', function(snapshot) {
+        if(snapshot.val() != null && val!=''){
+          $("#login-error").show();
+           $('#index-btn').attr('disabled',true);
+        };
+        if(snapshot.val() == null){
+              $("#login-error").slideUp();
+              $('#index-btn').attr('disabled',false);
+        }
+
+        });
+      });
+      </script>
 {% endblock %}

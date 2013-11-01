@@ -82,3 +82,10 @@ body {
     border-bottom: 0;
   }
 }
+
+#index-form {
+  margin-left: 0px;
+}
+#index-btn {
+  margin-left: 15px;
+}

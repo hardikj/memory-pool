@@ -12,6 +12,7 @@ UPLOAD_FOLDER = '/home/hardik/memory-cloud/static/'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	return render_template('index.html')
