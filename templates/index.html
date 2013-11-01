@@ -24,7 +24,7 @@
         };
         if(snapshot.val() == null){
               $("#login-error").slideUp();
-              $('#index-btn').attr('disabled',false);
+              $('#index-btn').attr('disabled',false).addclass("disabled");
         }
 
         });

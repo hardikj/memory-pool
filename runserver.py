@@ -7,7 +7,8 @@ from firebase import firebase
 
 app = Flask(__name__)
 
-
+API_KEY = '5fe2225dc7b1955d14b3bc31c5f47a70'
+API_SECRET = 'f662c05421e7d3c6'
 UPLOAD_FOLDER = '/home/hardik/memory-cloud/static/'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -27,7 +28,6 @@ def create():
     else:
         return redirect('/%s/setup'%text)
 
-
 @app.route('/<name>/setup')
 def setup(name):
 	if request.method == 'GET':
@@ -38,11 +38,11 @@ def setup(name):
 		f = FlickrAPI(api_key = API_KEY, 
 					  api_secret = API_SECRET,
 					  callback_url='http://0.0.0.0:5000/%s/final'%name)
-		auth_props = f.get_authentication_tokens()
-		auth_url = auth_props['auth_url']
-		app.config['OAUTH_TOKEN'] = auth_props['oauth_token']
-		app.config['OAUTH_TOKEN_SECRET'] = auth_props['oauth_token_secret']
-		return render_template('create.html', url=auth_url)
+        auth_props = f.get_authentication_tokens()
+        auth_url = auth_props['auth_url']
+        app.config['OAUTH_TOKEN'] = auth_props['oauth_token']
+        app.config['OAUTH_TOKEN_SECRET'] = auth_props['oauth_token_secret']
+        return render_template('setup.html', url=auth_url, name=name)
 
 @app.route('/<name>/final')
 def final(name):
@@ -60,12 +60,11 @@ def final(name):
 
 @app.route('/<name>/')
 def name(name):
-	fb = firebase.FirebaseApplication('https://memory-pool.firebaseio.com', None)
-	result = fb.get('/', None)
-
-	if name not in result:
-		redirect('/%s/setup/'%name)
-	return "<a href=\"upload\">upload</a>"
+    fb = firebase.FirebaseApplication('https://memory-pool.firebaseio.com', None)
+    result = fb.get('/', None)
+    if name not in result:
+        redirect('/%s/setup/'%name)
+    return render_template("app.html", name=name)
 
 def allowed_file(filename):
     return '.' in filename and \

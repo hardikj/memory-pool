@@ -2,11 +2,15 @@
 {% block title %} Upload {% endblock %}
 {% block head %}{{super()}}{% endblock %}
 {% block content %}
+	<div class="well">
 	<h1> Welcome </h1>
 	<p> You can now upload memories about {{name}} </p>
 	<p> You can now upload some memories or share this URL to other people to upload memories</p>
-	<form enctype="multipart/form-data" action="" method="POST">
-		<input type="file" name="file" multiple>
-		<input type="submit"/>
-	</form>
+	<div class="well">
+		<form enctype="multipart/form-data" action="" method="POST">
+			<input type="file" name="file" multiple>
+			<input type="submit"/>
+		</form>
+	</div>
+	</div>
 {% endblock %}

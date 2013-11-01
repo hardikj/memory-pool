@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %} Memory Pool {% endblock %}
+{% block content %}
+	<div class="well"> 
+	<h1 class="page-header" id="setup"> You <strong> Are </strong> Almost There.</h1>
+	<p class="lead" id="setup"> Just tell us where to store your photos? </p>
+	<p id="setup">
+		<a href={{url}} class="btn btn-info btn-group btn-lg" id="flickr-pop" title="Login to Flickr">Flickr</a>
+		<a href="#" class="btn btn-info btn-group btn-lg" id = "google-pop" title="Login to Google Plus">Google+</a>
+	</p>
+	</div>
+
+<script>
+	$('#google-pop').tooltip({placement: 'right'})
+	$('#flickr-pop').tooltip({placement: 'left'})
+</script>
+{% endblock %}
