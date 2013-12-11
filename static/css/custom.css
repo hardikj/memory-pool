@@ -93,3 +93,8 @@ body {
 #setup {
   text-align: center;
 }
+
+#upBtn{
+   position: relative;
+  }
+
