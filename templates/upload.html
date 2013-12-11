@@ -2,15 +2,83 @@
 {% block title %} Upload {% endblock %}
 {% block head %}{{super()}}{% endblock %}
 {% block content %}
-	<div class="well">
-	<h1> Welcome </h1>
-	<p> You can now upload memories about {{name}} </p>
-	<p> You can now upload some memories or share this URL to other people to upload memories</p>
-	<div class="well">
-		<form enctype="multipart/form-data" action="" method="POST">
-			<input type="file" name="file" multiple>
-			<input type="submit"/>
-		</form>
-	</div>
-	</div>
+    <div class="well">
+        <fieldset>
+          <p id="status">Select an image</p>
+          <div id="progressbar"></div>
+           <div style="position:relative;">
+            <a class='btn btn-primary' href='javascript:;'>
+            Choose File...
+            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" id="file" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+            </a>
+            &nbsp;
+            <span class='label label-info' id="upload-file-info"></span>
+        </div>
+          <div id="drop">or drop image here</div>
+        </fieldset>
+    </div>
+        <h3>Recently Uploaded Images (real-time Update)</h3>
+      <div id="images">{% for i in image %}<div><img src="../{{i}}"></div>{% endfor %}</div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function sse(){
+            var source = new EventSource('/stream');
+            source.onmessage = function(e){
+                if(e.data=='')
+                    return
+                
+                var data = $.parseJSON(e.data);
+                data['src'] = "../"+ data['src']
+                var upload_message = 'Image uploaded';
+                var image = $('<img>', {alt: upload_message, src: data['src']});
+                console.log(e.data);
+                var container = $('<div>').hide();
+                container.append($('<div>', {text: upload_message}));
+                container.append(image);
+                $('#image').text("ok");
+                $('#images').prepend(container);
+                    image.load(function(){
+                    container.show('blind', {}, 1000);
+                });
+
+                }
+            });
+
+    	function upload_file(stuff){
+          	var progressbar = $('#progressbar');
+    		var status = $('#status');
+    		var xhr = new XMLHttpRequest();
+
+    		xhr.upload.addEventListener('loadstart', function(e1){
+            status.text('uploading image');
+            progressbar.progressbar({max: e1.total});
+            });
+
+            xhr.upload.addEventListener('progress', function(e1){
+                if (progressbar.progressbar('option', 'max') == 0)
+                   progressbar.progressbar('option', 'max', e1.total);
+                    progressbar.progressbar('value', e1.loaded);
+            });
+
+    	xhr.onreadystatechange = function(e1) {
+            if (this.readyState == 4)  {
+                if (this.status == 200)
+                  	var text = 'upload complete: ' + this.responseText;
+                else
+                  	var text = 'upload failed: code ' + this.status;
+                status.html(text + '<br/>Select an image');
+                progressbar.progressbar('destroy');
+              }
+          };
+    	xhr.open('POST', '/post', true);
+        xhr.send(stuff);
+
+    	};
+    	$("#file").change(function(e){
+    		upload_file(e.target.files[0]);
+    		e.target.value = '';
+    	});
+
+    </script>
 {% endblock %}

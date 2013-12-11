@@ -14,19 +14,26 @@
         </form></p>
      </div>
       <script type="text/javascript">
+      $(document).ready(function(){
+          $('#index-btn').attr('disabled',true);
+      });
+
       $('#index-input').on('input', function() {
         var val = $('#index-input').val();
+        if(val == null || val == ""){
+          $('#index-btn').attr('disabled',true);
+        }
         var fb = new Firebase('https://memory-pool.firebaseio.com/'+val);
         fb.on('value', function(snapshot) {
         if(snapshot.val() != null && val!=''){
           $("#login-error").show();
            $('#index-btn').attr('disabled',true);
         };
+
         if(snapshot.val() == null){
               $("#login-error").slideUp();
               $('#index-btn').attr('disabled',false).addclass("disabled");
         }
-
         });
       });
       </script>
