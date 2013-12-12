@@ -17,7 +17,6 @@ API_SECRET = 'f662c05421e7d3c6'
 DATA_DIR = 'static/data'
 app = flask.Flask(__name__)
 
-
 KEEP_ALIVE_DELAY = 25
 MAX_IMAGE_SIZE = 800, 600
 MAX_IMAGES = 10
