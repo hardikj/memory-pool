@@ -16,6 +16,7 @@
       <script type="text/javascript">
       $(document).ready(function(){
           $('#index-btn').attr('disabled',true);
+          var fb = new Firebase('https://memory-pool.firebaseio.com/');
       });
 
       $('#index-input').on('input', function() {

@@ -31,7 +31,6 @@ except OSError:
     pass
 
 def broadcast(message):
-    """ Notify all waiting waiting gthreads of message. """
     waiting = []
     try:
         while True:
